@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>treatment1_anova</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Pf13_mutation</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7514,13 +7514,15 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#Load statistical analysis</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
-<span class="kn">from</span> <span class="nn">statsmodels.stats.multicomp</span> <span class="kn">import</span> <span class="n">pairwise_tukeyhsd</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load and process the protein sequences from the uploaded file</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">"K13_Protein_genes.txt"</span>
+
+<span class="c1"># Read the file content</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7531,339 +7533,13 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">anova_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'treatment1.csv'</span><span class="p">)</span>
-<span class="n">anova_data</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Variables</th>
-<th>PR1</th>
-<th>PR2</th>
-<th>PR3</th>
-<th>DR1</th>
-<th>DR2</th>
-<th>DR3</th>
-<th>MR1</th>
-<th>MR2</th>
-<th>MR3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>CONTROL</td>
-<td>18.98</td>
-<td>17.21</td>
-<td>19.04</td>
-<td>432.0</td>
-<td>441.0</td>
-<td>426.1</td>
-<td>124.8</td>
-<td>124.38</td>
-<td>119.25</td>
-</tr>
-<tr>
-<th>1</th>
-<td>NHT0254b</td>
-<td>5.72</td>
-<td>6.21</td>
-<td>5.96</td>
-<td>552.6</td>
-<td>554.9</td>
-<td>550.0</td>
-<td>132.1</td>
-<td>136.25</td>
-<td>124.54</td>
-</tr>
-<tr>
-<th>2</th>
-<td>NHT0356b</td>
-<td>4.41</td>
-<td>4.56</td>
-<td>4.87</td>
-<td>571.0</td>
-<td>572.0</td>
-<td>570.0</td>
-<td>116.1</td>
-<td>110.24</td>
-<td>121.24</td>
-</tr>
-<tr>
-<th>3</th>
-<td>NGB00699</td>
-<td>0.04</td>
-<td>0.05</td>
-<td>0.04</td>
-<td>622.0</td>
-<td>618.0</td>
-<td>626.0</td>
-<td>127.2</td>
-<td>135.04</td>
-<td>126.58</td>
-</tr>
-<tr>
-<th>4</th>
-<td>NHT0206a</td>
-<td>-10.04</td>
-<td>-9.97</td>
-<td>-10.11</td>
-<td>681.8</td>
-<td>697.0</td>
-<td>665.0</td>
-<td>131.8</td>
-<td>141.60</td>
-<td>121.77</td>
-</tr>
-<tr>
-<th>5</th>
-<td>NHT100</td>
-<td>2.36</td>
-<td>2.45</td>
-<td>2.29</td>
-<td>672.3</td>
-<td>683.0</td>
-<td>661.0</td>
-<td>80.2</td>
-<td>84.67</td>
-<td>83.22</td>
-</tr>
-<tr>
-<th>6</th>
-<td>NHT0199c</td>
-<td>-2.23</td>
-<td>-2.22</td>
-<td>-3.01</td>
-<td>670.1</td>
-<td>662.0</td>
-<td>678.0</td>
-<td>148.7</td>
-<td>149.97</td>
-<td>150.37</td>
-</tr>
-<tr>
-<th>7</th>
-<td>NGB00733</td>
-<td>-6.91</td>
-<td>-6.48</td>
-<td>-7.16</td>
-<td>448.3</td>
-<td>441.0</td>
-<td>455.0</td>
-<td>187.3</td>
-<td>198.44</td>
-<td>185.07</td>
-</tr>
-<tr>
-<th>8</th>
-<td>NGB00739</td>
-<td>-6.84</td>
-<td>-7.11</td>
-<td>-6.90</td>
-<td>509.0</td>
-<td>516.0</td>
-<td>503.0</td>
-<td>250.2</td>
-<td>265.54</td>
-<td>251.25</td>
-</tr>
-<tr>
-<th>9</th>
-<td>NHT034a</td>
-<td>-4.37</td>
-<td>-4.87</td>
-<td>-4.55</td>
-<td>527.1</td>
-<td>532.0</td>
-<td>522.0</td>
-<td>231.5</td>
-<td>247.88</td>
-<td>232.30</td>
-</tr>
-<tr>
-<th>10</th>
-<td>NHT0226a</td>
-<td>-0.34</td>
-<td>-0.38</td>
-<td>-0.42</td>
-<td>858.3</td>
-<td>857.0</td>
-<td>859.0</td>
-<td>275.1</td>
-<td>259.23</td>
-<td>270.83</td>
-</tr>
-<tr>
-<th>11</th>
-<td>NHT0339a</td>
-<td>-0.76</td>
-<td>-0.87</td>
-<td>-0.72</td>
-<td>551.7</td>
-<td>552.0</td>
-<td>549.0</td>
-<td>104.9</td>
-<td>106.26</td>
-<td>102.91</td>
-</tr>
-<tr>
-<th>12</th>
-<td>NHT0366</td>
-<td>2.60</td>
-<td>2.99</td>
-<td>2.41</td>
-<td>539.4</td>
-<td>533.1</td>
-<td>542.6</td>
-<td>251.6</td>
-<td>235.57</td>
-<td>249.43</td>
-</tr>
-<tr>
-<th>13</th>
-<td>NHT0216a</td>
-<td>-2.37</td>
-<td>-2.39</td>
-<td>-2.36</td>
-<td>546.7</td>
-<td>549.3</td>
-<td>556.2</td>
-<td>455.0</td>
-<td>458.44</td>
-<td>478.92</td>
-</tr>
-<tr>
-<th>14</th>
-<td>NHT0355a</td>
-<td>6.67</td>
-<td>6.22</td>
-<td>6.41</td>
-<td>455.0</td>
-<td>457.0</td>
-<td>451.0</td>
-<td>142.5</td>
-<td>148.81</td>
-<td>145.04</td>
-</tr>
-<tr>
-<th>15</th>
-<td>NHT0259a</td>
-<td>0.41</td>
-<td>0.42</td>
-<td>0.44</td>
-<td>1403.7</td>
-<td>1413.2</td>
-<td>1297.9</td>
-<td>273.5</td>
-<td>267.01</td>
-<td>269.43</td>
-</tr>
-<tr>
-<th>16</th>
-<td>NGB00713</td>
-<td>1.23</td>
-<td>1.39</td>
-<td>1.32</td>
-<td>296.8</td>
-<td>287.0</td>
-<td>310.7</td>
-<td>221.1</td>
-<td>234.32</td>
-<td>207.67</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Reshape the data to long format for Data P</span>
-<span class="n">data_pt</span> <span class="o">=</span> <span class="n">anova_data</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">'Variables'</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'PR1'</span><span class="p">,</span> <span class="s1">'PR2'</span><span class="p">,</span> <span class="s1">'PR3'</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">'Replication'</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">'Value'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Group the data by 'PT' and collect all values into lists (for ANOVA)</span>
-<span class="n">grouped_data</span> <span class="o">=</span> <span class="n">data_pt</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Variables'</span><span class="p">)[</span><span class="s1">'Value'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-
-<span class="c1"># Perform one-way ANOVA</span>
-<span class="n">anova_result</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">grouped_data</span><span class="p">)</span>
-<span class="n">anova_result</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>F_onewayResult(statistic=1222.0654819131378, pvalue=4.035409587598977e-42)</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Perform Tukey's HSD test (ANOVA - POSTHOC)</span>
-<span class="n">tukey_result</span> <span class="o">=</span> <span class="n">pairwise_tukeyhsd</span><span class="p">(</span><span class="n">endog</span><span class="o">=</span><span class="n">data_pt</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">],</span> <span class="n">groups</span><span class="o">=</span><span class="n">data_pt</span><span class="p">[</span><span class="s1">'Variables'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tukey_result</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Prints the entire file as a single string to validate the protein sequence</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Sequence List for Mutation Alayisis:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>  
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">50</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7876,209 +7552,96 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>   Multiple Comparison of Means - Tukey HSD, FWER=0.05    
-==========================================================
- group1   group2  meandiff p-adj   lower    upper   reject
-----------------------------------------------------------
- CONTROL NGB00699 -18.3667    0.0 -19.3489 -17.3845   True
- CONTROL NGB00713 -17.0967    0.0 -18.0789 -16.1145   True
- CONTROL NGB00733   -25.26    0.0 -26.2422 -24.2778   True
- CONTROL NGB00739   -25.36    0.0 -26.3422 -24.3778   True
- CONTROL NHT0199c -20.8967    0.0 -21.8789 -19.9145   True
- CONTROL NHT0206a   -28.45    0.0 -29.4322 -27.4678   True
- CONTROL NHT0216a -20.7833    0.0 -21.7655 -19.8011   True
- CONTROL NHT0226a   -18.79    0.0 -19.7722 -17.8078   True
- CONTROL NHT0254b -12.4467    0.0 -13.4289 -11.4645   True
- CONTROL NHT0259a -17.9867    0.0 -18.9689 -17.0045   True
- CONTROL NHT0339a -19.1933    0.0 -20.1755 -18.2111   True
- CONTROL  NHT034a -23.0067    0.0 -23.9889 -22.0245   True
- CONTROL NHT0355a -11.9767    0.0 -12.9589 -10.9945   True
- CONTROL NHT0356b -13.7967    0.0 -14.7789 -12.8145   True
- CONTROL  NHT0366 -15.7433    0.0 -16.7255 -14.7611   True
- CONTROL   NHT100 -16.0433    0.0 -17.0255 -15.0611   True
-NGB00699 NGB00713     1.27 0.0028   0.2878   2.2522   True
-NGB00699 NGB00733  -6.8933    0.0  -7.8755  -5.9111   True
-NGB00699 NGB00739  -6.9933    0.0  -7.9755  -6.0111   True
-NGB00699 NHT0199c    -2.53    0.0  -3.5122  -1.5478   True
-NGB00699 NHT0206a -10.0833    0.0 -11.0655  -9.1011   True
-NGB00699 NHT0216a  -2.4167    0.0  -3.3989  -1.4345   True
-NGB00699 NHT0226a  -0.4233 0.9643  -1.4055   0.5589  False
-NGB00699 NHT0254b     5.92    0.0   4.9378   6.9022   True
-NGB00699 NHT0259a     0.38 0.9863  -0.6022   1.3622  False
-NGB00699 NHT0339a  -0.8267 0.1829  -1.8089   0.1555  False
-NGB00699  NHT034a    -4.64    0.0  -5.6222  -3.6578   True
-NGB00699 NHT0355a     6.39    0.0   5.4078   7.3722   True
-NGB00699 NHT0356b     4.57    0.0   3.5878   5.5522   True
-NGB00699  NHT0366   2.6233    0.0   1.6411   3.6055   True
-NGB00699   NHT100   2.3233    0.0   1.3411   3.3055   True
-NGB00713 NGB00733  -8.1633    0.0  -9.1455  -7.1811   True
-NGB00713 NGB00739  -8.2633    0.0  -9.2455  -7.2811   True
-NGB00713 NHT0199c     -3.8    0.0  -4.7822  -2.8178   True
-NGB00713 NHT0206a -11.3533    0.0 -12.3355 -10.3711   True
-NGB00713 NHT0216a  -3.6867    0.0  -4.6689  -2.7045   True
-NGB00713 NHT0226a  -1.6933    0.0  -2.6755  -0.7111   True
-NGB00713 NHT0254b     4.65    0.0   3.6678   5.6322   True
-NGB00713 NHT0259a    -0.89 0.1112  -1.8722   0.0922  False
-NGB00713 NHT0339a  -2.0967    0.0  -3.0789  -1.1145   True
-NGB00713  NHT034a    -5.91    0.0  -6.8922  -4.9278   True
-NGB00713 NHT0355a     5.12    0.0   4.1378   6.1022   True
-NGB00713 NHT0356b      3.3    0.0   2.3178   4.2822   True
-NGB00713  NHT0366   1.3533 0.0012   0.3711   2.3355   True
-NGB00713   NHT100   1.0533 0.0257   0.0711   2.0355   True
-NGB00733 NGB00739     -0.1    1.0  -1.0822   0.8822  False
-NGB00733 NHT0199c   4.3633    0.0   3.3811   5.3455   True
-NGB00733 NHT0206a    -3.19    0.0  -4.1722  -2.2078   True
-NGB00733 NHT0216a   4.4767    0.0   3.4945   5.4589   True
-NGB00733 NHT0226a     6.47    0.0   5.4878   7.4522   True
-NGB00733 NHT0254b  12.8133    0.0  11.8311  13.7955   True
-NGB00733 NHT0259a   7.2733    0.0   6.2911   8.2555   True
-NGB00733 NHT0339a   6.0667    0.0   5.0845   7.0489   True
-NGB00733  NHT034a   2.2533    0.0   1.2711   3.2355   True
-NGB00733 NHT0355a  13.2833    0.0  12.3011  14.2655   True
-NGB00733 NHT0356b  11.4633    0.0  10.4811  12.4455   True
-NGB00733  NHT0366   9.5167    0.0   8.5345  10.4989   True
-NGB00733   NHT100   9.2167    0.0   8.2345  10.1989   True
-NGB00739 NHT0199c   4.4633    0.0   3.4811   5.4455   True
-NGB00739 NHT0206a    -3.09    0.0  -4.0722  -2.1078   True
-NGB00739 NHT0216a   4.5767    0.0   3.5945   5.5589   True
-NGB00739 NHT0226a     6.57    0.0   5.5878   7.5522   True
-NGB00739 NHT0254b  12.9133    0.0  11.9311  13.8955   True
-NGB00739 NHT0259a   7.3733    0.0   6.3911   8.3555   True
-NGB00739 NHT0339a   6.1667    0.0   5.1845   7.1489   True
-NGB00739  NHT034a   2.3533    0.0   1.3711   3.3355   True
-NGB00739 NHT0355a  13.3833    0.0  12.4011  14.3655   True
-NGB00739 NHT0356b  11.5633    0.0  10.5811  12.5455   True
-NGB00739  NHT0366   9.6167    0.0   8.6345  10.5989   True
-NGB00739   NHT100   9.3167    0.0   8.3345  10.2989   True
-NHT0199c NHT0206a  -7.5533    0.0  -8.5355  -6.5711   True
-NHT0199c NHT0216a   0.1133    1.0  -0.8689   1.0955  False
-NHT0199c NHT0226a   2.1067    0.0   1.1245   3.0889   True
-NHT0199c NHT0254b     8.45    0.0   7.4678   9.4322   True
-NHT0199c NHT0259a     2.91    0.0   1.9278   3.8922   True
-NHT0199c NHT0339a   1.7033    0.0   0.7211   2.6855   True
-NHT0199c  NHT034a    -2.11    0.0  -3.0922  -1.1278   True
-NHT0199c NHT0355a     8.92    0.0   7.9378   9.9022   True
-NHT0199c NHT0356b      7.1    0.0   6.1178   8.0822   True
-NHT0199c  NHT0366   5.1533    0.0   4.1711   6.1355   True
-NHT0199c   NHT100   4.8533    0.0   3.8711   5.8355   True
-NHT0206a NHT0216a   7.6667    0.0   6.6845   8.6489   True
-NHT0206a NHT0226a     9.66    0.0   8.6778  10.6422   True
-NHT0206a NHT0254b  16.0033    0.0  15.0211  16.9855   True
-NHT0206a NHT0259a  10.4633    0.0   9.4811  11.4455   True
-NHT0206a NHT0339a   9.2567    0.0   8.2745  10.2389   True
-NHT0206a  NHT034a   5.4433    0.0   4.4611   6.4255   True
-NHT0206a NHT0355a  16.4733    0.0  15.4911  17.4555   True
-NHT0206a NHT0356b  14.6533    0.0  13.6711  15.6355   True
-NHT0206a  NHT0366  12.7067    0.0  11.7245  13.6889   True
-NHT0206a   NHT100  12.4067    0.0  11.4245  13.3889   True
-NHT0216a NHT0226a   1.9933    0.0   1.0111   2.9755   True
-NHT0216a NHT0254b   8.3367    0.0   7.3545   9.3189   True
-NHT0216a NHT0259a   2.7967    0.0   1.8145   3.7789   True
-NHT0216a NHT0339a     1.59 0.0001   0.6078   2.5722   True
-NHT0216a  NHT034a  -2.2233    0.0  -3.2055  -1.2411   True
-NHT0216a NHT0355a   8.8067    0.0   7.8245   9.7889   True
-NHT0216a NHT0356b   6.9867    0.0   6.0045   7.9689   True
-NHT0216a  NHT0366     5.04    0.0   4.0578   6.0222   True
-NHT0216a   NHT100     4.74    0.0   3.7578   5.7222   True
-NHT0226a NHT0254b   6.3433    0.0   5.3611   7.3255   True
-NHT0226a NHT0259a   0.8033 0.2169  -0.1789   1.7855  False
-NHT0226a NHT0339a  -0.4033 0.9764  -1.3855   0.5789  False
-NHT0226a  NHT034a  -4.2167    0.0  -5.1989  -3.2345   True
-NHT0226a NHT0355a   6.8133    0.0   5.8311   7.7955   True
-NHT0226a NHT0356b   4.9933    0.0   4.0111   5.9755   True
-NHT0226a  NHT0366   3.0467    0.0   2.0645   4.0289   True
-NHT0226a   NHT100   2.7467    0.0   1.7645   3.7289   True
-NHT0254b NHT0259a    -5.54    0.0  -6.5222  -4.5578   True
-NHT0254b NHT0339a  -6.7467    0.0  -7.7289  -5.7645   True
-NHT0254b  NHT034a   -10.56    0.0 -11.5422  -9.5778   True
-NHT0254b NHT0355a     0.47 0.9197  -0.5122   1.4522  False
-NHT0254b NHT0356b    -1.35 0.0012  -2.3322  -0.3678   True
-NHT0254b  NHT0366  -3.2967    0.0  -4.2789  -2.3145   True
-NHT0254b   NHT100  -3.5967    0.0  -4.5789  -2.6145   True
-NHT0259a NHT0339a  -1.2067 0.0055  -2.1889  -0.2245   True
-NHT0259a  NHT034a    -5.02    0.0  -6.0022  -4.0378   True
-NHT0259a NHT0355a     6.01    0.0   5.0278   6.9922   True
-NHT0259a NHT0356b     4.19    0.0   3.2078   5.1722   True
-NHT0259a  NHT0366   2.2433    0.0   1.2611   3.2255   True
-NHT0259a   NHT100   1.9433    0.0   0.9611   2.9255   True
-NHT0339a  NHT034a  -3.8133    0.0  -4.7955  -2.8311   True
-NHT0339a NHT0355a   7.2167    0.0   6.2345   8.1989   True
-NHT0339a NHT0356b   5.3967    0.0   4.4145   6.3789   True
-NHT0339a  NHT0366     3.45    0.0   2.4678   4.4322   True
-NHT0339a   NHT100     3.15    0.0   2.1678   4.1322   True
- NHT034a NHT0355a    11.03    0.0  10.0478  12.0122   True
- NHT034a NHT0356b     9.21    0.0   8.2278  10.1922   True
- NHT034a  NHT0366   7.2633    0.0   6.2811   8.2455   True
- NHT034a   NHT100   6.9633    0.0   5.9811   7.9455   True
-NHT0355a NHT0356b    -1.82    0.0  -2.8022  -0.8378   True
-NHT0355a  NHT0366  -3.7667    0.0  -4.7489  -2.7845   True
-NHT0355a   NHT100  -4.0667    0.0  -5.0489  -3.0845   True
-NHT0356b  NHT0366  -1.9467    0.0  -2.9289  -0.9645   True
-NHT0356b   NHT100  -2.2467    0.0  -3.2289  -1.2645   True
- NHT0366   NHT100     -0.3 0.9988  -1.2822   0.6822  False
-----------------------------------------------------------
+<pre>Sequence List for Mutation Alayisis:
+&gt;K13_Target1
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKKFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPISTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGVATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target2
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target3
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGTIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTLRSSAMTVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target4 
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI 
+
+&gt;K13_Target5
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target6
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKKFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMTVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+ 
+&gt;K13_Target7
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target8
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target9
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target10
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNHNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKTFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLYVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMCVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+&gt;K13_Target11
+MEGEKVKTKANSISNFSMTYDRESGGNSNSDDKSGSSSENDSNSFMNLTSDKNEKTENNSFLLNNSSYGNVKDSLLESIDMSVLDSNFDSKKDFLPSNLSRTFNNMSKDNIGNKYLNKLLNKKKDTITNENNNINHNNNNNNLTANNITNNLINNNMNSPSIMNTNKKENFLDAANLINDDSGLNNLKKFSTVNNVNDTYEKKIIETELSDASDFENMVGDLRITFINWLKKTQMNFIREKDKLFKDKKELEMERVRLYKELENRKNIEEQKLHDERKKLDIDISNGYKQIKKEKEEHRKRFDEERLRFLQEIDKIKLVLYLEKEKYYQEYKNFENDKKKIVDANIATETMIDINVGGAIFETSRHTLTQQKDSFIEKLLSGRHHVTRDKQGRIFLDRDSELFRIILNFLRNPLTIPIPKDLSESEALLKEAEFYGIKFLPFPLVFCIGGFDGVEYLNSMELLDISQQCWRMCTPMSTKKAYFGSAVLNNFLHVFGGNNYDYKALFETEVYDRLRDVWYVSSNLNIPRRNNCGVTSNGRIYCIGGYDGSSIIPNVEAYDHRMKAWVEVAPLNTPRSSAMTVAFDNKIYVIGGTNGERLNSIEVYEEKMNKWEQFPYALLEARSSGAAFNYLNQIYVVGGIDNEHNILDSVEQYQPFNKRWQFLNGVPEKKMNFGAATLSDSYIITGGENGEVLNSCHFFSPDTNEWQLGPSLLVPRFGHSVLIANI
+
+
+
+==================================================
+
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Reshape the data to long format for Data D</span>
-<span class="n">data_dt</span> <span class="o">=</span> <span class="n">anova_data</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">'Variables'</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'DR1'</span><span class="p">,</span> <span class="s1">'DR2'</span><span class="p">,</span> <span class="s1">'DR3'</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">'Replication'</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">'Value'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Group the data by 'DT' and collect all values into lists (for ANOVA)</span>
-<span class="n">grouped_data</span> <span class="o">=</span> <span class="n">data_dt</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Variables'</span><span class="p">)[</span><span class="s1">'Value'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="c1"># Parse the FASTA file format</span>
+<span class="n">sequences</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">current_target</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="c1"># Perform one-way ANOVA</span>
-<span class="n">anova_result</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">grouped_data</span><span class="p">)</span>
-<span class="n">anova_result</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>F_onewayResult(statistic=559.9403788059761, pvalue=2.2236079411906107e-36)</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Perform Tukey's HSD test (ANOVA - POSTHOC)</span>
-<span class="n">tukey_result</span> <span class="o">=</span> <span class="n">pairwise_tukeyhsd</span><span class="p">(</span><span class="n">endog</span><span class="o">=</span><span class="n">data_dt</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">],</span> <span class="n">groups</span><span class="o">=</span><span class="n">data_dt</span><span class="p">[</span><span class="s1">'Variables'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tukey_result</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"&gt;"</span><span class="p">):</span>  <span class="c1"># New target identifier</span>
+        <span class="n">current_target</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">sequences</span><span class="p">[</span><span class="n">current_target</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sequences</span><span class="p">[</span><span class="n">current_target</span><span class="p">]</span> <span class="o">+=</span> <span class="n">line</span>  <span class="c1"># Append protein sequence</span>
+
+<span class="c1"># Known resistance mutations and their reference amino acids</span>
+<span class="n">known_mutations</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">580</span><span class="p">:</span> <span class="s2">"C"</span><span class="p">,</span>  <span class="c1"># C580Y (Cysteine → Tyrosine)</span>
+    <span class="mi">539</span><span class="p">:</span> <span class="s2">"R"</span><span class="p">,</span>  <span class="c1"># R539T (Arginine → Threonine)</span>
+    <span class="mi">493</span><span class="p">:</span> <span class="s2">"Y"</span><span class="p">,</span>  <span class="c1"># Y493H (Tyrosine → Histidine)</span>
+    <span class="mi">675</span><span class="p">:</span> <span class="s2">"A"</span><span class="p">,</span>  <span class="c1"># A675V (Alanine → Valine)</span>
+    <span class="mi">574</span><span class="p">:</span> <span class="s2">"P"</span><span class="p">,</span>  <span class="c1"># P574L (Proline → Leucine)</span>
+    <span class="mi">476</span><span class="p">:</span> <span class="s2">"M"</span><span class="p">,</span>  <span class="c1"># M476I (Methionine → Isoleucine)</span>
+<span class="p">}</span>
+
+<span class="c1"># Identify mutations in each target sequence</span>
+<span class="n">detected_mutations</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">sequence</span> <span class="ow">in</span> <span class="n">sequences</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ref_aa</span> <span class="ow">in</span> <span class="n">known_mutations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>  
+            <span class="n">observed_aa</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">[</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  
+            <span class="k">if</span> <span class="n">observed_aa</span> <span class="o">!=</span> <span class="n">ref_aa</span><span class="p">:</span>  
+                <span class="n">detected_mutations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">target</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ref_aa</span><span class="p">,</span> <span class="n">observed_aa</span><span class="p">])</span>
+
+<span class="c1"># Print detected mutations in a table format</span>
+<span class="k">if</span> <span class="n">detected_mutations</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">detected_mutations</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"Target"</span><span class="p">,</span> <span class="s2">"Position"</span><span class="p">,</span> <span class="s2">"Reference Amino-Acid"</span><span class="p">,</span> <span class="s2">"Observed Amino-Acid"</span><span class="p">],</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">"grid"</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"No mutations detected."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8091,362 +7654,33 @@ NHT0356b   NHT100  -2.2467    0.0  -3.2289  -1.2645   True
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>     Multiple Comparison of Means - Tukey HSD, FWER=0.05     
-=============================================================
- group1   group2   meandiff p-adj    lower     upper   reject
--------------------------------------------------------------
- CONTROL NGB00699  188.9667    0.0   137.076  240.8573   True
- CONTROL NGB00713 -134.8667    0.0 -186.7573   -82.976   True
- CONTROL NGB00733   15.0667 0.9994   -36.824   66.9573  False
- CONTROL NGB00739      76.3 0.0004   24.4094  128.1906   True
- CONTROL NHT0199c     237.0    0.0  185.1094  288.8906   True
- CONTROL NHT0206a  248.2333    0.0  196.3427   300.124   True
- CONTROL NHT0216a     117.7    0.0   65.8094  169.5906   True
- CONTROL NHT0226a  425.0667    0.0   373.176  476.9573   True
- CONTROL NHT0254b  119.4667    0.0    67.576  171.3573   True
- CONTROL NHT0259a  938.5667    0.0   886.676  990.4573   True
- CONTROL NHT0339a  117.8667    0.0    65.976  169.7573   True
- CONTROL  NHT034a      94.0    0.0   42.1094  145.8906   True
- CONTROL NHT0355a      21.3 0.9765  -30.5906   73.1906  False
- CONTROL NHT0356b  137.9667    0.0    86.076  189.8573   True
- CONTROL  NHT0366  105.3333    0.0   53.4427   157.224   True
- CONTROL   NHT100  239.0667    0.0   187.176  290.9573   True
-NGB00699 NGB00713 -323.8333    0.0  -375.724 -271.9427   True
-NGB00699 NGB00733    -173.9    0.0 -225.7906 -122.0094   True
-NGB00699 NGB00739 -112.6667    0.0 -164.5573   -60.776   True
-NGB00699 NHT0199c   48.0333 0.0948   -3.8573    99.924  False
-NGB00699 NHT0206a   59.2667 0.0131     7.376  111.1573   True
-NGB00699 NHT0216a  -71.2667 0.0012 -123.1573   -19.376   True
-NGB00699 NHT0226a     236.1    0.0  184.2094  287.9906   True
-NGB00699 NHT0254b     -69.5 0.0017 -121.3906  -17.6094   True
-NGB00699 NHT0259a     749.6    0.0  697.7094  801.4906   True
-NGB00699 NHT0339a     -71.1 0.0013 -122.9906  -19.2094   True
-NGB00699  NHT034a  -94.9667    0.0 -146.8573   -43.076   True
-NGB00699 NHT0355a -167.6667    0.0 -219.5573  -115.776   True
-NGB00699 NHT0356b     -51.0 0.0582 -102.8906    0.8906  False
-NGB00699  NHT0366  -83.6333 0.0001  -135.524  -31.7427   True
-NGB00699   NHT100      50.1 0.0677   -1.7906  101.9906  False
-NGB00713 NGB00733  149.9333    0.0   98.0427   201.824   True
-NGB00713 NGB00739  211.1667    0.0   159.276  263.0573   True
-NGB00713 NHT0199c  371.8667    0.0   319.976  423.7573   True
-NGB00713 NHT0206a     383.1    0.0  331.2094  434.9906   True
-NGB00713 NHT0216a  252.5667    0.0   200.676  304.4573   True
-NGB00713 NHT0226a  559.9333    0.0  508.0427   611.824   True
-NGB00713 NHT0254b  254.3333    0.0  202.4427   306.224   True
-NGB00713 NHT0259a 1073.4333    0.0 1021.5427  1125.324   True
-NGB00713 NHT0339a  252.7333    0.0  200.8427   304.624   True
-NGB00713  NHT034a  228.8667    0.0   176.976  280.7573   True
-NGB00713 NHT0355a  156.1667    0.0   104.276  208.0573   True
-NGB00713 NHT0356b  272.8333    0.0  220.9427   324.724   True
-NGB00713  NHT0366     240.2    0.0  188.3094  292.0906   True
-NGB00713   NHT100  373.9333    0.0  322.0427   425.824   True
-NGB00733 NGB00739   61.2333  0.009    9.3427   113.124   True
-NGB00733 NHT0199c  221.9333    0.0  170.0427   273.824   True
-NGB00733 NHT0206a  233.1667    0.0   181.276  285.0573   True
-NGB00733 NHT0216a  102.6333    0.0   50.7427   154.524   True
-NGB00733 NHT0226a     410.0    0.0  358.1094  461.8906   True
-NGB00733 NHT0254b     104.4    0.0   52.5094  156.2906   True
-NGB00733 NHT0259a     923.5    0.0  871.6094  975.3906   True
-NGB00733 NHT0339a     102.8    0.0   50.9094  154.6906   True
-NGB00733  NHT034a   78.9333 0.0002   27.0427   130.824   True
-NGB00733 NHT0355a    6.2333    1.0  -45.6573    58.124  False
-NGB00733 NHT0356b     122.9    0.0   71.0094  174.7906   True
-NGB00733  NHT0366   90.2667    0.0    38.376  142.1573   True
-NGB00733   NHT100     224.0    0.0  172.1094  275.8906   True
-NGB00739 NHT0199c     160.7    0.0  108.8094  212.5906   True
-NGB00739 NHT0206a  171.9333    0.0  120.0427   223.824   True
-NGB00739 NHT0216a      41.4  0.249  -10.4906   93.2906  False
-NGB00739 NHT0226a  348.7667    0.0   296.876  400.6573   True
-NGB00739 NHT0254b   43.1667 0.1963    -8.724   95.0573  False
-NGB00739 NHT0259a  862.2667    0.0   810.376  914.1573   True
-NGB00739 NHT0339a   41.5667 0.2437   -10.324   93.4573  False
-NGB00739  NHT034a      17.7 0.9961  -34.1906   69.5906  False
-NGB00739 NHT0355a     -55.0 0.0289 -106.8906   -3.1094   True
-NGB00739 NHT0356b   61.6667 0.0083     9.776  113.5573   True
-NGB00739  NHT0366   29.0333 0.7842  -22.8573    80.924  False
-NGB00739   NHT100  162.7667    0.0   110.876  214.6573   True
-NHT0199c NHT0206a   11.2333    1.0  -40.6573    63.124  False
-NHT0199c NHT0216a    -119.3    0.0 -171.1906  -67.4094   True
-NHT0199c NHT0226a  188.0667    0.0   136.176  239.9573   True
-NHT0199c NHT0254b -117.5333    0.0  -169.424  -65.6427   True
-NHT0199c NHT0259a  701.5667    0.0   649.676  753.4573   True
-NHT0199c NHT0339a -119.1333    0.0  -171.024  -67.2427   True
-NHT0199c  NHT034a    -143.0    0.0 -194.8906  -91.1094   True
-NHT0199c NHT0355a    -215.7    0.0 -267.5906 -163.8094   True
-NHT0199c NHT0356b  -99.0333    0.0  -150.924  -47.1427   True
-NHT0199c  NHT0366 -131.6667    0.0 -183.5573   -79.776   True
-NHT0199c   NHT100    2.0667    1.0   -49.824   53.9573  False
-NHT0206a NHT0216a -130.5333    0.0  -182.424  -78.6427   True
-NHT0206a NHT0226a  176.8333    0.0  124.9427   228.724   True
-NHT0206a NHT0254b -128.7667    0.0 -180.6573   -76.876   True
-NHT0206a NHT0259a  690.3333    0.0  638.4427   742.224   True
-NHT0206a NHT0339a -130.3667    0.0 -182.2573   -78.476   True
-NHT0206a  NHT034a -154.2333    0.0  -206.124 -102.3427   True
-NHT0206a NHT0355a -226.9333    0.0  -278.824 -175.0427   True
-NHT0206a NHT0356b -110.2667    0.0 -162.1573   -58.376   True
-NHT0206a  NHT0366    -142.9    0.0 -194.7906  -91.0094   True
-NHT0206a   NHT100   -9.1667    1.0  -61.0573    42.724  False
-NHT0216a NHT0226a  307.3667    0.0   255.476  359.2573   True
-NHT0216a NHT0254b    1.7667    1.0   -50.124   53.6573  False
-NHT0216a NHT0259a  820.8667    0.0   768.976  872.7573   True
-NHT0216a NHT0339a    0.1667    1.0   -51.724   52.0573  False
-NHT0216a  NHT034a     -23.7 0.9432  -75.5906   28.1906  False
-NHT0216a NHT0355a     -96.4    0.0 -148.2906  -44.5094   True
-NHT0216a NHT0356b   20.2667  0.985   -31.624   72.1573  False
-NHT0216a  NHT0366  -12.3667 0.9999  -64.2573    39.524  False
-NHT0216a   NHT100  121.3667    0.0    69.476  173.2573   True
-NHT0226a NHT0254b    -305.6    0.0 -357.4906 -253.7094   True
-NHT0226a NHT0259a     513.5    0.0  461.6094  565.3906   True
-NHT0226a NHT0339a    -307.2    0.0 -359.0906 -255.3094   True
-NHT0226a  NHT034a -331.0667    0.0 -382.9573  -279.176   True
-NHT0226a NHT0355a -403.7667    0.0 -455.6573  -351.876   True
-NHT0226a NHT0356b    -287.1    0.0 -338.9906 -235.2094   True
-NHT0226a  NHT0366 -319.7333    0.0  -371.624 -267.8427   True
-NHT0226a   NHT100    -186.0    0.0 -237.8906 -134.1094   True
-NHT0254b NHT0259a     819.1    0.0  767.2094  870.9906   True
-NHT0254b NHT0339a      -1.6    1.0  -53.4906   50.2906  False
-NHT0254b  NHT034a  -25.4667  0.904  -77.3573    26.424  False
-NHT0254b NHT0355a  -98.1667    0.0 -150.0573   -46.276   True
-NHT0254b NHT0356b      18.5 0.9938  -33.3906   70.3906  False
-NHT0254b  NHT0366  -14.1333 0.9997   -66.024   37.7573  False
-NHT0254b   NHT100     119.6    0.0   67.7094  171.4906   True
-NHT0259a NHT0339a    -820.7    0.0 -872.5906 -768.8094   True
-NHT0259a  NHT034a -844.5667    0.0 -896.4573  -792.676   True
-NHT0259a NHT0355a -917.2667    0.0 -969.1573  -865.376   True
-NHT0259a NHT0356b    -800.6    0.0 -852.4906 -748.7094   True
-NHT0259a  NHT0366 -833.2333    0.0  -885.124 -781.3427   True
-NHT0259a   NHT100    -699.5    0.0 -751.3906 -647.6094   True
-NHT0339a  NHT034a  -23.8667 0.9401  -75.7573    28.024  False
-NHT0339a NHT0355a  -96.5667    0.0 -148.4573   -44.676   True
-NHT0339a NHT0356b      20.1 0.9861  -31.7906   71.9906  False
-NHT0339a  NHT0366  -12.5333 0.9999   -64.424   39.3573  False
-NHT0339a   NHT100     121.2    0.0   69.3094  173.0906   True
- NHT034a NHT0355a     -72.7 0.0009 -124.5906  -20.8094   True
- NHT034a NHT0356b   43.9667 0.1754    -7.924   95.8573  False
- NHT034a  NHT0366   11.3333    1.0  -40.5573    63.224  False
- NHT034a   NHT100  145.0667    0.0    93.176  196.9573   True
-NHT0355a NHT0356b  116.6667    0.0    64.776  168.5573   True
-NHT0355a  NHT0366   84.0333 0.0001   32.1427   135.924   True
-NHT0355a   NHT100  217.7667    0.0   165.876  269.6573   True
-NHT0356b  NHT0366  -32.6333  0.623   -84.524   19.2573  False
-NHT0356b   NHT100     101.1    0.0   49.2094  152.9906   True
- NHT0366   NHT100  133.7333    0.0   81.8427   185.624   True
--------------------------------------------------------------
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Reshape the data to long format for Data M</span>
-<span class="n">data_mt</span> <span class="o">=</span> <span class="n">anova_data</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">'Variables'</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'MR1'</span><span class="p">,</span> <span class="s1">'MR2'</span><span class="p">,</span> <span class="s1">'MR3'</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">'Replication'</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">'Value'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Group the data by 'DT' and collect all values into lists (for ANOVA)</span>
-<span class="n">grouped_data</span> <span class="o">=</span> <span class="n">data_mt</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Variables'</span><span class="p">)[</span><span class="s1">'Value'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-
-<span class="c1"># Perform one-way ANOVA</span>
-<span class="n">anova_result</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="n">grouped_data</span><span class="p">)</span>
-<span class="n">anova_result</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>F_onewayResult(statistic=487.3239911336594, pvalue=2.326973292243675e-35)</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Perform Tukey's HSD test (ANOVA - POSTHOC)</span>
-<span class="n">tukey_result</span> <span class="o">=</span> <span class="n">pairwise_tukeyhsd</span><span class="p">(</span><span class="n">endog</span><span class="o">=</span><span class="n">data_mt</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">],</span> <span class="n">groups</span><span class="o">=</span><span class="n">data_mt</span><span class="p">[</span><span class="s1">'Variables'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tukey_result</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>     Multiple Comparison of Means - Tukey HSD, FWER=0.05     
-=============================================================
- group1   group2   meandiff p-adj    lower     upper   reject
--------------------------------------------------------------
- CONTROL NGB00699    6.7967 0.9989  -15.6451   29.2385  False
- CONTROL NGB00713     98.22    0.0   75.7782  120.6618   True
- CONTROL NGB00733     67.46    0.0   45.0182   89.9018   True
- CONTROL NGB00739  132.8533    0.0  110.4115  155.2951   True
- CONTROL NHT0199c     26.87 0.0076    4.4282   49.3118   True
- CONTROL NHT0206a    8.9133 0.9825  -13.5285   31.3551  False
- CONTROL NHT0216a    341.31    0.0  318.8682  363.7518   True
- CONTROL NHT0226a  145.5767    0.0  123.1349  168.0185   True
- CONTROL NHT0254b    8.1533 0.9926  -14.2885   30.5951  False
- CONTROL NHT0259a    147.17    0.0  124.7282  169.6118   True
- CONTROL NHT0339a    -18.12 0.2333  -40.5618    4.3218  False
- CONTROL  NHT034a  114.4167    0.0   91.9749  136.8585   True
- CONTROL NHT0355a     22.64 0.0462    0.1982   45.0818   True
- CONTROL NHT0356b     -6.95 0.9986  -29.3918   15.4918  False
- CONTROL  NHT0366  122.7233    0.0  100.2815  145.1651   True
- CONTROL   NHT100  -40.1133    0.0  -62.5551  -17.6715   True
-NGB00699 NGB00713   91.4233    0.0   68.9815  113.8651   True
-NGB00699 NGB00733   60.6633    0.0   38.2215   83.1051   True
-NGB00699 NGB00739  126.0567    0.0  103.6149  148.4985   True
-NGB00699 NHT0199c   20.0733 0.1221   -2.3685   42.5151  False
-NGB00699 NHT0206a    2.1167    1.0  -20.3251   24.5585  False
-NGB00699 NHT0216a  334.5133    0.0  312.0715  356.9551   True
-NGB00699 NHT0226a    138.78    0.0  116.3382  161.2218   True
-NGB00699 NHT0254b    1.3567    1.0  -21.0851   23.7985  False
-NGB00699 NHT0259a  140.3733    0.0  117.9315  162.8151   True
-NGB00699 NHT0339a  -24.9167 0.0179  -47.3585   -2.4749   True
-NGB00699  NHT034a    107.62    0.0   85.1782  130.0618   True
-NGB00699 NHT0355a   15.8433 0.4349   -6.5985   38.2851  False
-NGB00699 NHT0356b  -13.7467  0.663  -36.1885    8.6951  False
-NGB00699  NHT0366  115.9267    0.0   93.4849  138.3685   True
-NGB00699   NHT100    -46.91    0.0  -69.3518  -24.4682   True
-NGB00713 NGB00733    -30.76 0.0013  -53.2018   -8.3182   True
-NGB00713 NGB00739   34.6333 0.0002   12.1915   57.0751   True
-NGB00713 NHT0199c    -71.35    0.0  -93.7918  -48.9082   True
-NGB00713 NHT0206a  -89.3067    0.0 -111.7485  -66.8649   True
-NGB00713 NHT0216a    243.09    0.0  220.6482  265.5318   True
-NGB00713 NHT0226a   47.3567    0.0   24.9149   69.7985   True
-NGB00713 NHT0254b  -90.0667    0.0 -112.5085  -67.6249   True
-NGB00713 NHT0259a     48.95    0.0   26.5082   71.3918   True
-NGB00713 NHT0339a   -116.34    0.0 -138.7818  -93.8982   True
-NGB00713  NHT034a   16.1967  0.399   -6.2451   38.6385  False
-NGB00713 NHT0355a    -75.58    0.0  -98.0218  -53.1382   True
-NGB00713 NHT0356b   -105.17    0.0 -127.6118  -82.7282   True
-NGB00713  NHT0366   24.5033 0.0214    2.0615   46.9451   True
-NGB00713   NHT100 -138.3333    0.0 -160.7751 -115.8915   True
-NGB00733 NGB00739   65.3933    0.0   42.9515   87.8351   True
-NGB00733 NHT0199c    -40.59    0.0  -63.0318  -18.1482   True
-NGB00733 NHT0206a  -58.5467    0.0  -80.9885  -36.1049   True
-NGB00733 NHT0216a    273.85    0.0  251.4082  296.2918   True
-NGB00733 NHT0226a   78.1167    0.0   55.6749  100.5585   True
-NGB00733 NHT0254b  -59.3067    0.0  -81.7485  -36.8649   True
-NGB00733 NHT0259a     79.71    0.0   57.2682  102.1518   True
-NGB00733 NHT0339a    -85.58    0.0 -108.0218  -63.1382   True
-NGB00733  NHT034a   46.9567    0.0   24.5149   69.3985   True
-NGB00733 NHT0355a    -44.82    0.0  -67.2618  -22.3782   True
-NGB00733 NHT0356b    -74.41    0.0  -96.8518  -51.9682   True
-NGB00733  NHT0366   55.2633    0.0   32.8215   77.7051   True
-NGB00733   NHT100 -107.5733    0.0 -130.0151  -85.1315   True
-NGB00739 NHT0199c -105.9833    0.0 -128.4251  -83.5415   True
-NGB00739 NHT0206a   -123.94    0.0 -146.3818 -101.4982   True
-NGB00739 NHT0216a  208.4567    0.0  186.0149  230.8985   True
-NGB00739 NHT0226a   12.7233 0.7684   -9.7185   35.1651  False
-NGB00739 NHT0254b    -124.7    0.0 -147.1418 -102.2582   True
-NGB00739 NHT0259a   14.3167 0.6005   -8.1251   36.7585  False
-NGB00739 NHT0339a -150.9733    0.0 -173.4151 -128.5315   True
-NGB00739  NHT034a  -18.4367 0.2114  -40.8785    4.0051  False
-NGB00739 NHT0355a -110.2133    0.0 -132.6551  -87.7715   True
-NGB00739 NHT0356b -139.8033    0.0 -162.2451 -117.3615   True
-NGB00739  NHT0366    -10.13 0.9482  -32.5718   12.3118  False
-NGB00739   NHT100 -172.9667    0.0 -195.4085 -150.5249   True
-NHT0199c NHT0206a  -17.9567 0.2452  -40.3985    4.4851  False
-NHT0199c NHT0216a    314.44    0.0  291.9982  336.8818   True
-NHT0199c NHT0226a  118.7067    0.0   96.2649  141.1485   True
-NHT0199c NHT0254b  -18.7167 0.1933  -41.1585    3.7251  False
-NHT0199c NHT0259a     120.3    0.0   97.8582  142.7418   True
-NHT0199c NHT0339a    -44.99    0.0  -67.4318  -22.5482   True
-NHT0199c  NHT034a   87.5467    0.0   65.1049  109.9885   True
-NHT0199c NHT0355a     -4.23    1.0  -26.6718   18.2118  False
-NHT0199c NHT0356b    -33.82 0.0003  -56.2618  -11.3782   True
-NHT0199c  NHT0366   95.8533    0.0   73.4115  118.2951   True
-NHT0199c   NHT100  -66.9833    0.0  -89.4251  -44.5415   True
-NHT0206a NHT0216a  332.3967    0.0  309.9549  354.8385   True
-NHT0206a NHT0226a  136.6633    0.0  114.2215  159.1051   True
-NHT0206a NHT0254b     -0.76    1.0  -23.2018   21.6818  False
-NHT0206a NHT0259a  138.2567    0.0  115.8149  160.6985   True
-NHT0206a NHT0339a  -27.0333  0.007  -49.4751   -4.5915   True
-NHT0206a  NHT034a  105.5033    0.0   83.0615  127.9451   True
-NHT0206a NHT0355a   13.7267 0.6652   -8.7151   36.1685  False
-NHT0206a NHT0356b  -15.8633 0.4328  -38.3051    6.5785  False
-NHT0206a  NHT0366    113.81    0.0   91.3682  136.2518   True
-NHT0206a   NHT100  -49.0267    0.0  -71.4685  -26.5849   True
-NHT0216a NHT0226a -195.7333    0.0 -218.1751 -173.2915   True
-NHT0216a NHT0254b -333.1567    0.0 -355.5985 -310.7149   True
-NHT0216a NHT0259a   -194.14    0.0 -216.5818 -171.6982   True
-NHT0216a NHT0339a   -359.43    0.0 -381.8718 -336.9882   True
-NHT0216a  NHT034a -226.8933    0.0 -249.3351 -204.4515   True
-NHT0216a NHT0355a   -318.67    0.0 -341.1118 -296.2282   True
-NHT0216a NHT0356b   -348.26    0.0 -370.7018 -325.8182   True
-NHT0216a  NHT0366 -218.5867    0.0 -241.0285 -196.1449   True
-NHT0216a   NHT100 -381.4233    0.0 -403.8651 -358.9815   True
-NHT0226a NHT0254b -137.4233    0.0 -159.8651 -114.9815   True
-NHT0226a NHT0259a    1.5933    1.0  -20.8485   24.0351  False
-NHT0226a NHT0339a -163.6967    0.0 -186.1385 -141.2549   True
-NHT0226a  NHT034a    -31.16  0.001  -53.6018   -8.7182   True
-NHT0226a NHT0355a -122.9367    0.0 -145.3785 -100.4949   True
-NHT0226a NHT0356b -152.5267    0.0 -174.9685 -130.0849   True
-NHT0226a  NHT0366  -22.8533 0.0424  -45.2951   -0.4115   True
-NHT0226a   NHT100   -185.69    0.0 -208.1318 -163.2482   True
-NHT0254b NHT0259a  139.0167    0.0  116.5749  161.4585   True
-NHT0254b NHT0339a  -26.2733 0.0099  -48.7151   -3.8315   True
-NHT0254b  NHT034a  106.2633    0.0   83.8215  128.7051   True
-NHT0254b NHT0355a   14.4867 0.5817   -7.9551   36.9285  False
-NHT0254b NHT0356b  -15.1033 0.5137  -37.5451    7.3385  False
-NHT0254b  NHT0366    114.57    0.0   92.1282  137.0118   True
-NHT0254b   NHT100  -48.2667    0.0  -70.7085  -25.8249   True
-NHT0259a NHT0339a   -165.29    0.0 -187.7318 -142.8482   True
-NHT0259a  NHT034a  -32.7533 0.0005  -55.1951  -10.3115   True
-NHT0259a NHT0355a   -124.53    0.0 -146.9718 -102.0882   True
-NHT0259a NHT0356b   -154.12    0.0 -176.5618 -131.6782   True
-NHT0259a  NHT0366  -24.4467 0.0219  -46.8885   -2.0049   True
-NHT0259a   NHT100 -187.2833    0.0 -209.7251 -164.8415   True
-NHT0339a  NHT034a  132.5367    0.0  110.0949  154.9785   True
-NHT0339a NHT0355a     40.76    0.0   18.3182   63.2018   True
-NHT0339a NHT0356b     11.17 0.8943  -11.2718   33.6118  False
-NHT0339a  NHT0366  140.8433    0.0  118.4015  163.2851   True
-NHT0339a   NHT100  -21.9933 0.0597  -44.4351    0.4485  False
- NHT034a NHT0355a  -91.7767    0.0 -114.2185  -69.3349   True
- NHT034a NHT0356b -121.3667    0.0 -143.8085  -98.9249   True
- NHT034a  NHT0366    8.3067  0.991  -14.1351   30.7485  False
- NHT034a   NHT100   -154.53    0.0 -176.9718 -132.0882   True
-NHT0355a NHT0356b    -29.59 0.0022  -52.0318   -7.1482   True
-NHT0355a  NHT0366  100.0833    0.0   77.6415  122.5251   True
-NHT0355a   NHT100  -62.7533    0.0  -85.1951  -40.3115   True
-NHT0356b  NHT0366  129.6733    0.0  107.2315  152.1151   True
-NHT0356b   NHT100  -33.1633 0.0004  -55.6051  -10.7215   True
- NHT0366   NHT100 -162.8367    0.0 -185.2785 -140.3949   True
--------------------------------------------------------------
+<pre>+--------------+------------+------------------------+-----------------------+
+| Target       |   Position | Reference Amino-Acid   | Observed Amino-Acid   |
++==============+============+========================+=======================+
+| K13_Target1  |        675 | A                      | V                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target1  |        476 | M                      | I                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target3  |        580 | C                      | T                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target3  |        539 | R                      | T                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target3  |        574 | P                      | L                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target6  |        580 | C                      | T                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target8  |        580 | C                      | E                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target8  |        539 | R                      | V                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target8  |        574 | P                      | T                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target8  |        476 | M                      | I                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target11 |        580 | C                      | T                     |
++--------------+------------+------------------------+-----------------------+
+| K13_Target11 |        493 | Y                      | H                     |
++--------------+------------+------------------------+-----------------------+
 </pre>
 </div>
 </div>
